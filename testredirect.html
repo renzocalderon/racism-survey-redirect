@@ -13,7 +13,7 @@ redirect_html_final = f"""
         window.onload = function() {{
             const referrer = document.referrer || 'unknown';
             const encodedRef = encodeURIComponent(referrer);
-            const surveyURL = "{survey_url}?d[ref]=" + encodedRef;
+            const surveyURL = "https://ee.kobotoolbox.org/x/9DqjMPCB?d[ref]=" + encodedRef;
             window.location.href = surveyURL;
         }};
     </script>
