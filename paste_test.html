@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirect to Kobo with Report Number</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Paste the iCarol Report URL</h2>
+  <p>Example: <code>https://na0.icarol.com/secure/reports/ReportView5.aspx?CallReportNum=141882771&ReportVersionNum=51614&Action=New</code></p>
+
+  <input type="text" id="urlInput" placeholder="Paste the URL here..." />
+  <button onclick="redirectToKobo()">Go to Kobo Survey</button>
+
+  <div id="message"></div>
+
+  <script>
+    function redirectToKobo() {
+      const input = document.getElementById("urlInput").value.trim();
+      const messageDiv = document.getElementById("message");
+
+      try {
+        const url = new URL(input);
+        const reportNum = url.searchParams.get("CallReportNum");
+
+        if (!reportNum) {
+          messageDiv.style.color = "red";
+          messageDiv.textContent = "❌ Could not find CallReportNum in the URL.";
+          return;
+        }
+
+        const koboURL = `https://ee.kobotoolbox.org/x/9DqjMPCB?d[ref]=${encodeURIComponent(reportNum)}`;
+        messageDiv.style.color = "green";
+        messageDiv.textContent = `✅ Redirecting with CallReportNum = ${reportNum}...`;
+        setTimeout(() => {
+          window.location.href = koboURL;
+        }, 1000);
+      } catch (e) {
+        messageDiv.style.color = "red";
+        messageDiv.textContent = "❌ Invalid URL. Please check and try again.";
+      }
+    }
+  </script>
+</body>
+</html>
