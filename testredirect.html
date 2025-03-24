@@ -1,0 +1,29 @@
+# Re-run the code after environment reset to regenerate the redirect HTML file
+survey_url = "https://ee.kobotoolbox.org/x/Cy55KNLq"
+redirect_html_updated = f"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting to Survey...</title>
+    <script>
+        window.onload = function() {{
+            const referrer = document.referrer || 'unknown';
+            const encodedRef = encodeURIComponent(referrer);
+            const surveyURL = "{survey_url}?ref=" + encodedRef;
+            window.location.href = surveyURL;
+        }};
+    </script>
+</head>
+<body>
+    <p>Redirecting you to the survey...</p>
+</body>
+</html>
+"""
+
+# Save the new version of the redirect page
+file_path = "/mnt/data/kobo_redirect_to_your_form.html"
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(redirect_html_updated)
+
+file_path
