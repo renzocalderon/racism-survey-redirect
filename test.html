@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Get Referrer</title>
+  <title>Referrer Inspector</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 2rem;
     }
-    #urlBox {
+    #urlBox, #statusBox {
       margin-top: 1rem;
-      padding: 0.5rem;
+      padding: 0.75rem;
       border: 1px solid #ccc;
       background-color: #f9f9f9;
       word-wrap: break-word;
@@ -20,6 +20,15 @@
       padding: 0.5rem 1rem;
       font-size: 1rem;
     }
+    .warning {
+      color: darkorange;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
   </style>
 </head>
 <body>
@@ -28,13 +37,26 @@
   <div id="urlBox">Loading...</div>
   <button onclick="copyURL()">Copy to Clipboard</button>
 
+  <div id="statusBox">Checking referrer status...</div>
+
   <script>
-    const referrer = document.referrer || 'No referrer found (direct visit or same-origin)';
+    const referrer = document.referrer || '';
     const urlBox = document.getElementById('urlBox');
-    urlBox.textContent = referrer;
+    const statusBox = document.getElementById('statusBox');
+    
+    urlBox.textContent = referrer || '[No referrer]';
+
+    // Analyze and display status
+    if (!referrer) {
+      statusBox.innerHTML = `<span class="error">⚠️ Referrer not available. This may be due to a <code>no-referrer</code> policy, a direct visit, or cross-origin restrictions.</span>`;
+    } else if (referrer.endsWith('/')) {
+      statusBox.innerHTML = `<span class="warning">ℹ️ Referrer detected, but may be limited (origin only). The source page might use a <code>origin</code> or <code>strict-origin</code> policy.</span>`;
+    } else {
+      statusBox.innerHTML = `<span class="success">✅ Referrer successfully detected!</span>`;
+    }
 
     function copyURL() {
-      navigator.clipboard.writeText(referrer).then(() => {
+      navigator.clipboard.writeText(referrer || '[No referrer]').then(() => {
         alert('Referrer URL copied to clipboard!');
       }).catch(err => {
         alert('Failed to copy: ' + err);
@@ -43,3 +65,4 @@
   </script>
 </body>
 </html>
+
