@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get Referrer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    #urlBox {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      word-wrap: break-word;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Referrer URL</h2>
+  <p>This is the URL of the page that linked here:</p>
+  <div id="urlBox">Loading...</div>
+  <button onclick="copyURL()">Copy to Clipboard</button>
+
+  <script>
+    const referrer = document.referrer || 'No referrer found (direct visit or same-origin)';
+    const urlBox = document.getElementById('urlBox');
+    urlBox.textContent = referrer;
+
+    function copyURL() {
+      navigator.clipboard.writeText(referrer).then(() => {
+        alert('Referrer URL copied to clipboard!');
+      }).catch(err => {
+        alert('Failed to copy: ' + err);
+      });
+    }
+  </script>
+</body>
+</html>
