@@ -1,6 +1,9 @@
-# Re-run the code after environment reset to regenerate the redirect HTML file
+Always show details
+
+Copy
+# Update the redirect page to use the correct format: d[ref]=...
 survey_url = "https://ee.kobotoolbox.org/x/9DqjMPCB"
-redirect_html_updated = f"""
+redirect_html_final = f"""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +13,7 @@ redirect_html_updated = f"""
         window.onload = function() {{
             const referrer = document.referrer || 'unknown';
             const encodedRef = encodeURIComponent(referrer);
-            const surveyURL = "{survey_url}?ref=" + encodedRef;
+            const surveyURL = "{survey_url}?d[ref]=" + encodedRef;
             window.location.href = surveyURL;
         }};
     </script>
@@ -21,9 +24,9 @@ redirect_html_updated = f"""
 </html>
 """
 
-# Save the new version of the redirect page
-file_path = "/mnt/data/kobo_redirect_to_your_form.html"
+# Save the corrected redirect file
+file_path = "/mnt/data/kobo_redirect_with_dref.html"
 with open(file_path, "w", encoding="utf-8") as f:
-    f.write(redirect_html_updated)
+    f.write(redirect_html_final)
 
 file_path
